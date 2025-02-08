@@ -1,0 +1,8 @@
+<form method="POST">
+    {% csrf_token %}
+    <label>Name:</label> <input type="text" name="name" required>
+    <label>Age:</label> <input type="number" name="age" required>
+    <label>Study Hours:</label> <input type="number" name="study_hours" required>
+    <label>Previous Scores:</label> <input type="number" name="previous_scores" required>
+    <button type="submit">Predict</button>
+</form>
