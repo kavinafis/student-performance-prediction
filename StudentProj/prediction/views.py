@@ -3,7 +3,8 @@ import joblib
 import numpy as np
 from .models import Student
 
-model = joblib.load("StudentProj/prediction/model.pkl")
+model = joblib.load("prediction/model.pkl")
+
 
 
 def predict_performance(request):
