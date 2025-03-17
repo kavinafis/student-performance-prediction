@@ -1,24 +1,24 @@
-from django.shortcuts import render
-import joblib
-import numpy as np
-from .models import Student
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
-model = joblib.load("prediction/model.pkl")
+@csrf_exempt
+def predict(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        name = data.get('name')
+        age = data.get('age')
+        study_hours = data.get('study_hours')
+        previous_scores = data.get('previous_scores')
 
+        # Implement your prediction logic here
+        predicted_score = (study_hours * 10) + (previous_scores * 0.5)  # Example logic
+        notification_message = f'Prediction for {name} with age {age} is successful! Predicted score: {predicted_score}'
+        
+        response_data = {
+            'message': notification_message,
+            'notification': notification_message
+        }
+        return JsonResponse(response_data, status=200)
 
-
-def predict_performance(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        age = int(request.POST.get("age"))
-        study_hours = float(request.POST.get("study_hours"))
-        previous_scores = float(request.POST.get("previous_scores"))
-
-        prediction = model.predict(np.array([[study_hours, previous_scores]]))[0]
-
-        student = Student(name=name, age=age, study_hours=study_hours, previous_scores=previous_scores)
-        student.save()
-
-        return render(request, "result.html", {"student": student, "prediction": round(prediction, 2)})
-
-    return render(request, "index.html")
+    return JsonResponse({'error': 'Invalid request method.'}, status=400)

@@ -1,2 +1,9 @@
 <h2>Prediction Result for {{ student.name }}</h2>
+<div class="notification success" id="successNotification">{{ notification }}</div>
 <p>Predicted Final Score: {{ prediction }}</p>
+<script>
+    // Call this function to show the notification if it exists
+    if ('{{ notification }}') {
+        showNotification('success');
+    }
+</script>

@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from prediction.views import predict  # Ensure the view is imported
 
 urlpatterns = [
+    path('predict/', predict, name='predict'),  # Corrected syntax with a comma
     path('admin/', admin.site.urls),
     path('', include('prediction.urls')),
 ]
